@@ -1,17 +1,19 @@
-var exec = require('child_process').exec;
-var execSync = require('child_process').execSync;
-const files = execSync('ls *.sol', { encoding: 'utf-8' }).split('\n').join(' ');
+const shell = require('shelljs');
+
+shell.cd(__dirname);
+const files = shell.ls('*.sol').join(' ');
 const flags = {
   'optimize-runs': '200',
   'overwrite': true,
   'bin-runtime': true,
   'abi': true,
-  'output': './compiled',
+  'bin': true,
+  'output': './build',
   'files': files
 }
 const command = Object.keys(flags).map(k=>{
   let output = '';
-  if(typeof flags[k] == "boolean") {
+  if(typeof flags[k] == "boolean" && flags[k] === true) {
     output += '--'+k;
   }else{
     if(k==='output') {
@@ -26,7 +28,7 @@ const command = Object.keys(flags).map(k=>{
 }).join(' ');
 console.log(`solcjs ${command}`);
 console.log('compiling...');
-exec(`solcjs ${command}`, (err, stdOut, stdErr) => {
+shell.exec(`solcjs ${command}`, (err, stdOut, stdErr) => {
   if(err) return console.log(err);
   console.log('compile completed!')
 })

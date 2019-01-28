@@ -7,8 +7,8 @@ const sendTransaction = (from, to, amount) => {
     to: to.address,
     value: amount
   }, (err, txId) => {
-    if (err) return console.log(err);
-    console.log('SENT TO: ', to.address)
+    if (err) return console.log(err.message);
+    console.log(`${from.address} SENT ${amount} TO ${to.address}`);
     console.log(`CHECK TX: https://testnet.veforge.com/transactions/${txId}`);
   })
 }

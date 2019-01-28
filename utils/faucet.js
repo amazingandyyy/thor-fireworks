@@ -8,7 +8,8 @@ const faucet = (address) => {
    web3.eth.getBalance(address).then((a)=>console.log(a));
  })
  .catch(err=>{
-   console.log("err", err);
+   console.log("err", err.message);
  })
 }
+
 module.exports = faucet;
